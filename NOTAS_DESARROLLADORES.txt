@@ -1,0 +1,5 @@
+﻿Para el uso de GIT es necesario tomar en cuenta los siguientes puntos:
+
+*  Verificar la códificación de texto que se utiliza en 
+*  Al utilizar la herramienta gráfica para realizar "commits" o "publish" es necesario
+   que los archivos sean guardados con una codificación UTF-8.

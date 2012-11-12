@@ -1,0 +1,20 @@
+﻿*************************
+*     WakeUpBrain       *
+*************************
+
+
+El objetivo de este proyecto es desarrollar una aplicación educativa orientada a niños
+desde los 5 hasta los 10 años. Consiste en diferentes juegos que ponen a prueba la
+destreza mental de los niños. Los niños podrán interactuar con estas actividades
+a través de una camara web.
+
+El proyecto se lleva en el marco de los estudios de ingeniería de los desarrolladores
+a cargo.
+
+Desarrolladores del proyecto:
+
+María Elizabeth Cruz Reyes
+Iris Concepción Del Valle
+Raúl Solís Olvera
+Luis Gutiérrez Luna
+David Ríos Valeriano
