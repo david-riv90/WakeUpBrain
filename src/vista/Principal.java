@@ -44,7 +44,7 @@ public class Principal extends JDialog {
 		btnActividad.setBounds(456, 41, 121, 33);
 		contentPane.add(btnActividad);
 		
-		JComboBox comboBox = new JComboBox();
+		JComboBox<?> comboBox = new JComboBox<>();
 		comboBox.setBounds(44, 41, 121, 34);
 		contentPane.add(comboBox);
 		

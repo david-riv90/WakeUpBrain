@@ -39,8 +39,8 @@ public class SesionSqlite {
 				Class.forName(SesionSqlite.driver);
 				// Conexión
 				this.con = DriverManager.getConnection(SesionSqlite.url_prefix + SesionSqlite.url);
-				exito = true;
 			}
+			exito = true;
 		}catch(SQLException ex)	{
 			Mensajes.mostrarError(ex.getMessage(), "Conectar");
 		}catch(ClassNotFoundException ex)	{
