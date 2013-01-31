@@ -18,6 +18,7 @@ public class Principal extends JDialog {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	JButton btnTutor;
+	JButton btnAgregarPaciente;
 
 	/**
 	 * Create the frame.
@@ -41,21 +42,22 @@ public class Principal extends JDialog {
 		
 		JButton btnActividad = new JButton("ACTIVIDAD");
 		btnActividad.setFont(new Font("Arial Rounded MT Bold", Font.PLAIN, 13));
-		btnActividad.setBounds(456, 41, 121, 33);
+		btnActividad.setBounds(240, 175, 121, 33);
 		contentPane.add(btnActividad);
 		
 		JComboBox<?> comboBox = new JComboBox<>();
 		comboBox.setBounds(44, 41, 121, 34);
 		contentPane.add(comboBox);
 		
-		JLabel label = new JLabel("");
-		label.setBounds(0, 0, 635, 331);
-		contentPane.add(label);
-		
 		btnTutor = new JButton("TUTORES");
 		btnTutor.setFont(new Font("Arial Rounded MT Bold", Font.PLAIN, 13));
-		btnTutor.setBounds(240, 97, 153, 34);
+		btnTutor.setBounds(240, 85, 153, 34);
 		contentPane.add(btnTutor);
+		
+		btnAgregarPaciente = new JButton("AGREGAR PACIENTE");
+		btnAgregarPaciente.setFont(new Font("Arial Rounded MT Bold", Font.PLAIN, 13));
+		btnAgregarPaciente.setBounds(240, 130, 176, 34);
+		contentPane.add(btnAgregarPaciente);
 		
 		//# Asignar eventos a los controles
 		this.asignarEventos();
@@ -68,6 +70,15 @@ public class Principal extends JDialog {
 				Tutores t = new Tutores();
 				t.setModalityType(ModalityType.APPLICATION_MODAL);
 				t.setVisible(true);
+			}
+		});
+		
+		btnAgregarPaciente.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				AgregarPaciente ap = new AgregarPaciente();
+				ap.setModalityType(ModalityType.APPLICATION_MODAL);
+				ap.setVisible(true);
 			}
 		});
 	}

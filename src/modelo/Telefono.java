@@ -5,71 +5,63 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import dvx.bd.Entidades;
 import dvx.error.Mensajes;
-import dvx.gui.JComboBoxElement;
 
-public class Tutor extends Entidades {
+public class Telefono extends Entidades {
 
 	// =============================== //
 	// ======= << ATRIBUTOS >> ======= //
 	// =============================== //
-	private int id;
-	private String nombre;
-	private String apaterno;
-	private String amaterno;
-	
-	public int getId() {
-		return id;
+	private int id_tutor;
+	private String tipo;
+	private String numeroOriginal;
+	private String numeroNuevo;
+	public int getId_tutor() {
+		return id_tutor;
 	}
-	public void setId(int id) {
-		this.id = id;
+	public void setId_tutor(int id_tutor) {
+		this.id_tutor = id_tutor;
 	}
-	
-	public String getNombre() {
-		return nombre;
+	public String getTipo() {
+		return tipo;
 	}
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
 	}
-
-	public String getApaterno() {
-		return apaterno;
+	public String getNumeroOriginal() {
+		return numeroOriginal;
 	}
-	public void setApaterno(String apaterno) {
-		this.apaterno = apaterno;
+	public void setNumeroOriginal(String numeroOriginal) {
+		this.numeroOriginal = numeroOriginal;
 	}
-
-	public String getAmaterno() {
-		return amaterno;
+	public String getNumeroNuevo() {
+		return numeroNuevo;
 	}
-	public void setAmaterno(String amaterno) {
-		this.amaterno = amaterno;
+	public void setNumeroNuevo(String numero) {
+		this.numeroNuevo = numero;
 	}
 	
-	private List<Map<String, Object>> listaTutores;
-	public List<Map<String, Object>> getListaTutores() {
-		return listaTutores;
-	}
-
 	SesionSqlite sesion_sqlite = new SesionSqlite();
 	Statement comando = null;
-
+	
+	List<Map<String, Object>> listaTelefonos = null;
+	public List<Map<String, Object>> getListaTelefonos() {
+		return listaTelefonos;
+	}
 	// =================================== //
 	// ======= << CONSTRUCTORES >> ======= //
 	// =================================== //
-	public Tutor()	{};
-	
-	
+	public Telefono(){};
+
 	// ============================= //
 	// ======= << MÉTODOS >> ======= //
 	// ============================= //
 	/**
-	 * Inserta un tutor en BD
+	 * Agrega un teléfono para el tutor que se está editando
 	 * @return True si la acción se realiza exitosamente, False en caso contrario
 	 */
 	public boolean insertar()	{
@@ -77,31 +69,24 @@ public class Tutor extends Entidades {
 		if(this.sesion_sqlite.conectar())	{
 			String query = 
 				"INSERT INTO" +
-				"	tutor(nombre, apaterno, amaterno)" +
-				" VALUES('" + this.nombre + "','" + this.apaterno + "','" + this.amaterno + "');";
-			String query_id = " SELECT last_insert_rowid();";
-			ResultSet rs = null;
+				"	telefono(id_tutor, numero, tipo)" +
+				" VALUES('" + this.id_tutor + "','" + this.numeroNuevo + "','" + this.tipo + "')";
 			try {
 				this.comando = this.sesion_sqlite.getConexion().createStatement();
 				//# executeUpdate devuelve el número de líneas afectadas en BD
-				this.comando.executeUpdate(query);
-				//# Recuperar el último id creado para la transacción actual
-				rs = this.comando.executeQuery(query_id);
-				rs.next();
-				int id_nuevo_registro = rs.getInt(1);
-				if(id_nuevo_registro > 0)	{
-					this.id = id_nuevo_registro;
+				int num_reg = this.comando.executeUpdate(query);
+				
+				if(num_reg > 0)	{
 					exito = true;
 				}else	{
 					throw new SQLException("Los cambios no han podido ser guardados");
 				}
 			} catch (SQLException e) {
-				Mensajes.mostrarError(e.getMessage(), "Insertar tutor");
+				Mensajes.mostrarError(e.getMessage(), "Agregar teléfono");
 			} finally	{
 				//# Es importante cerrar estos objetos para evitar bloqueos en la tabla
 				try {
 					this.comando.close();
-					rs.close();
 				} catch (SQLException e) {};
 			}
 		}
@@ -109,7 +94,7 @@ public class Tutor extends Entidades {
 	}
 	
 	/**
-	 * Modificar los datos de un tutor existente en Base de Datos
+	 * Modificar el número de teléfono de un tutor
 	 * @return True si la acción se realiza exitosamente, False en caso contrario
 	 */
 	public boolean modificar()	{
@@ -117,11 +102,11 @@ public class Tutor extends Entidades {
 		if(this.sesion_sqlite.conectar())	{
 			try	{
 				String query = 
-					"UPDATE tutor SET" +
-					"	nombre = '" + this.nombre + "'" +
-					"	,apaterno = '" + this.apaterno + "'" +
-					"	,amaterno = '" + this.amaterno + "'" +
-					"WHERE id_tutor = " + this.id;
+					"UPDATE telefono SET" +
+					"	id_tutor = '" + this.id_tutor + "'" +
+					"	,numero = '" + this.numeroNuevo + "'" +
+					"	,tipo = '" + this.tipo + "'" +
+					"WHERE id_tutor = '" + this.id_tutor + "' AND numero = '" + this.numeroOriginal + "'";
 				this.comando = this.sesion_sqlite.getConexion().createStatement();
 				//# executeUpdate devuelve el número de líneas afectadas en BD
 				int num_reg = this.comando.executeUpdate(query);
@@ -132,7 +117,7 @@ public class Tutor extends Entidades {
 					throw new SQLException("Los cambios no han podido ser guardados");
 				}
 			}catch(SQLException ex)	{
-				Mensajes.mostrarError(ex.getMessage(), "Modificar tutor");
+				Mensajes.mostrarError(ex.getMessage(), "Modificar teléfono");
 			}finally	{
 				//# Es importante cerrar estos objetos para evitar bloqueos en la tabla
 				try {
@@ -144,7 +129,7 @@ public class Tutor extends Entidades {
 	}
 	
 	/**
-	 * Elimina el registro en BD, que coincida con el valor del atributo id actual de esta clase
+	 * Elimina un número telefónico de un tutor
 	 * @return True si la acción se realiza exitosamente, False en caso contrario
 	 */
 	public boolean eliminar()	{
@@ -152,8 +137,8 @@ public class Tutor extends Entidades {
 		if(this.sesion_sqlite.conectar())	{
 			try	{
 				String query = 
-					"DELETE FROM tutor " +
-					"WHERE id_tutor = " + this.id;
+					"DELETE FROM telefono " +
+					"WHERE id_tutor = '" + this.id_tutor + "' AND numero = '" + this.numeroOriginal + "'";
 				this.comando = this.sesion_sqlite.getConexion().createStatement();
 				//# executeUpdate devuelve el número de líneas afectadas en BD
 				int num_reg = this.comando.executeUpdate(query);
@@ -164,7 +149,7 @@ public class Tutor extends Entidades {
 					throw new SQLException("Los cambios no han podido ser guardados");
 				}
 			}catch(SQLException ex)	{
-				Mensajes.mostrarError(ex.getMessage(), "Eliminar tutor");
+				Mensajes.mostrarError(ex.getMessage(), "Eliminar teléfono");
 			}finally	{
 				//# Es importante cerrar estos objetos para evitar bloqueos en la tabla
 				try {
@@ -176,23 +161,23 @@ public class Tutor extends Entidades {
 	}
 	
 	/**
-	 * Recupera la lista de tutores presentes en BD y las guarda en una variable de la clase
+	 * Recupera la lista de teléfonos de un tutor
 	 * Los datos pueden ser recuperados usando el método: getListaTutores()
 	 * @return True si la acción se realiza exitosamente, False en caso contrario
 	 */
-	public boolean listar_sqlite(String _query)	{
+	public boolean listar_sqlite()	{
 		boolean exito = false;
 		if(this.sesion_sqlite.conectar())	{
 			ResultSet rs = null;
 			try	{
-//				String query = "SELECT * FROM tutor";
-				String query = _query.isEmpty() || null == _query ? "SELECT * FROM tutor" : _query;
-				
+				String query = 
+					"SELECT tipo, numero FROM telefono " +
+					"WHERE id_tutor = " + this.id_tutor;
 				this.comando = this.sesion_sqlite.getConexion().createStatement();
 				//# executeUpdate devuelve el número de líneas afectadas en BD
 				rs = this.comando.executeQuery(query);
 				//#Recuperando los registros
-				this.listaTutores = new ArrayList<Map<String, Object>>();
+				this.listaTelefonos = new ArrayList<Map<String, Object>>();
 				Map<String, Object> mpColumnas = null;
 				while(rs.next())	{
 					mpColumnas = new HashMap<>();
@@ -201,7 +186,7 @@ public class Tutor extends Entidades {
 						mpColumnas.put(rs.getMetaData().getColumnName(i), rs.getObject(i));
 					}
 					//# Se agrega la fila a la lista de la clase
-					this.listaTutores.add(mpColumnas);
+					this.listaTelefonos.add(mpColumnas);
 				}
 				exito = true;
 			}catch(SQLException ex)	{
@@ -215,38 +200,5 @@ public class Tutor extends Entidades {
 			}
 		}
 		return exito;
-	}
-	
-	/**
-	 * Obtener los JComboBoxElements para rellenar un JComboBox
-	 * @param _campoValor
-	 * @param _campoMostrado
-	 * @return
-	 */
-	public JComboBoxElement[] getJComboBoxElements_sqlite(String _campoValor, String _campoMostrado)	{
-		JComboBoxElement[] cmbElements = new JComboBoxElement[this.listaTutores.size()];
-		
-		Iterator<Map<String, Object>> it_filas = this.listaTutores.iterator();
-		Map<String, Object> fila = null;
-		int nElemento = 0;
-		JComboBoxElement elem = null;
-		while(it_filas.hasNext())	{
-			fila = it_filas.next();
-			try	{
-				if(fila.containsKey(_campoValor))	{
-					elem = new JComboBoxElement();
-					elem.setValor(fila.get(_campoValor));
-					elem.setValorMostrado((String) fila.get(_campoMostrado));
-					cmbElements[nElemento] = elem;
-				}else	{
-					throw new ClassCastException("El campo valor [" + _campoValor + "] no existe dentro de la tabla [" + super.tabla_nombre + "]");
-				}
-			}catch(ClassCastException ex)	{
-				Mensajes.mostrarError(ex.getMessage(), "Entidades getJcomboBoxElements()");
-			}finally	{
-				nElemento++;
-			}
-		}
-		return cmbElements;
 	}
 }
