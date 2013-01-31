@@ -2,6 +2,7 @@ package vista;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Toolkit;
+import java.awt.Dialog.ModalityType;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -19,6 +20,7 @@ import dvx.error.Mensajes;
 
 public class Login extends JFrame {
 
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField textField;
 	private JPasswordField textField_1;
@@ -32,6 +34,7 @@ public class Login extends JFrame {
 	public Login() {
 		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\Iris\\Pictures\\Imagen1.png"));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setResizable(false);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(153, 204, 255));
@@ -77,7 +80,7 @@ public class Login extends JFrame {
 	}
 	
 	/**
-	 * Se asignan los eventos de cada control
+	 * Se asignan los eventos de cada control de la ventana
 	 */
 	private void asignarEventos()	{
 		btnEnviar.addActionListener(new ActionListener() {
@@ -85,10 +88,14 @@ public class Login extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				esp.setUsuario(textField.getText());
 				esp.setContrasenia(new String(textField_1.getPassword()));
-				if(esp.login())	{
-					Mensajes.mostrarDebug("Loggeado");
-				}else	{
+				if(!esp.login())	{
 					Mensajes.mostrarError("Usuario y/o contraseña incorrectos", "Wake Up Brain");
+				}else	{
+					//# Se da acceso a la aplicación
+					Principal p = new Principal();
+					//# Evitar el uso de la ventana padre
+					p.setModalityType(ModalityType.APPLICATION_MODAL);
+					p.setVisible(true);
 				}
 			}
 		});

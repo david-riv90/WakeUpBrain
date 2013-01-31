@@ -34,9 +34,10 @@ public class Especialista {
 	 */
 	public boolean login()	{
 		boolean exito = false;
-		String query = "SELECT COUNT(*) FROM especialista" +
-					" WHERE usuario = '" + this.usuario + "' AND contrasenia = '" + this.contrasenia + "'";
 		if(this.sesion_sqlite.conectar())	{
+			String query = 
+					"SELECT COUNT(*) FROM especialista" +
+					" WHERE usuario = '" + this.usuario + "' AND contrasenia = '" + this.contrasenia + "'";
 			try {
 				this.comando = this.sesion_sqlite.getConexion().createStatement();
 				Mensajes.mostrarDebug(query);
