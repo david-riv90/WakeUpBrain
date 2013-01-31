@@ -2,6 +2,8 @@ package vista;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -15,7 +17,7 @@ public class Principal extends JDialog {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-
+	JButton btnTutor;
 
 	/**
 	 * Create the frame.
@@ -49,5 +51,24 @@ public class Principal extends JDialog {
 		JLabel label = new JLabel("");
 		label.setBounds(0, 0, 635, 331);
 		contentPane.add(label);
+		
+		btnTutor = new JButton("TUTORES");
+		btnTutor.setFont(new Font("Arial Rounded MT Bold", Font.PLAIN, 13));
+		btnTutor.setBounds(240, 97, 153, 34);
+		contentPane.add(btnTutor);
+		
+		//# Asignar eventos a los controles
+		this.asignarEventos();
+	}
+	
+	private void asignarEventos()	{
+		btnTutor.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				Tutores t = new Tutores();
+				t.setModalityType(ModalityType.APPLICATION_MODAL);
+				t.setVisible(true);
+			}
+		});
 	}
 }

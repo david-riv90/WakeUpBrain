@@ -2,10 +2,13 @@ package vista;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -14,14 +17,21 @@ import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
 
-public class Tutor extends JFrame {
+import modelo.Tutor;
+
+public class Tutores extends JDialog {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField txtNombre;
 	private JTextField txtApPaterno;
 	private JTextField txtApMaterno;
+	JButton btnIngresar;
+	JButton btnModificar;
+	JButton btnEliminar;
 
+	
+	
 	/**
 	 * Launch the application.
 	 */
@@ -41,8 +51,7 @@ public class Tutor extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public Tutor() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	public Tutores() {
 		setBounds(100, 100, 450, 440);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -74,12 +83,12 @@ public class Tutor extends JFrame {
 		txtApMaterno = new JTextField();
 		txtApMaterno.setColumns(10);
 		
-		JButton btnIngresar = new JButton("Ingresar");
+		btnIngresar = new JButton("Ingresar");
 		btnIngresar.setBackground(Color.PINK);
 		
-		JButton btnModificar = new JButton("Modificar");
+		btnModificar = new JButton("Modificar");
 		
-		JButton btnEliminar = new JButton("Eliminar");
+		btnEliminar = new JButton("Eliminar");
 		
 		JTextArea textArea = new JTextArea();
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
@@ -147,12 +156,23 @@ public class Tutor extends JFrame {
 					.addContainerGap())
 		);
 		contentPane.setLayout(gl_contentPane);
+		//# Asignar los eventos de los controles
+		this.asignarEventos();
 	}
 	
 	/**
 	 * Se asignan los eventos de cada control de la ventana
 	 */
 	private void asignarEventos()	{
-		
+		btnIngresar.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Tutor t = new Tutor();
+				t.setNombre(txtNombre.getText());
+				t.setApaterno(txtApPaterno.getText());
+				t.setAmaterno(txtApMaterno.getText());
+				t.insertar();
+			}
+		});
 	}
 }

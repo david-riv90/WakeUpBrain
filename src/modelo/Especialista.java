@@ -38,10 +38,10 @@ public class Especialista {
 			String query = 
 					"SELECT COUNT(*) FROM especialista" +
 					" WHERE usuario = '" + this.usuario + "' AND contrasenia = '" + this.contrasenia + "'";
+			ResultSet rs = null;
 			try {
 				this.comando = this.sesion_sqlite.getConexion().createStatement();
-				Mensajes.mostrarDebug(query);
-				ResultSet rs = this.comando.executeQuery(query);
+				rs = this.comando.executeQuery(query);
 				rs.next();
 				int n = rs.getInt(1);
 				if(n == 1)	{
@@ -49,6 +49,12 @@ public class Especialista {
 				}
 			} catch (SQLException e) {
 				Mensajes.mostrarError(e.getMessage(), "login");
+			} finally	{
+				//# Es importante cerrar estos objetos para evitar bloqueos en la tabla
+				try {
+					rs.close();
+					this.comando.close();
+				} catch (SQLException e) {};
 			}
 		}
 		return exito;

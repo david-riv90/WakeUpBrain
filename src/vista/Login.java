@@ -22,8 +22,8 @@ public class Login extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JTextField textField;
-	private JPasswordField textField_1;
+	private JTextField txtUsuario;
+	private JPasswordField txtContrasenia;
 	private JButton btnEnviar; 
 //	private JPasswordField passwordField;
 	Especialista esp = new Especialista();
@@ -53,15 +53,15 @@ public class Login extends JFrame {
 		lblContrasea.setBounds(64, 131, 89, 20);
 		contentPane.add(lblContrasea);
 		
-		textField = new JTextField();
-		textField.setBounds(150, 65, 195, 26);
-		contentPane.add(textField);
-		textField.setColumns(10);
+		txtUsuario = new JTextField("admin");
+		txtUsuario.setBounds(150, 65, 195, 26);
+		contentPane.add(txtUsuario);
+		txtUsuario.setColumns(10);
 		
-		textField_1 = new JPasswordField();
-		textField_1.setBounds(150, 130, 195, 26);
-		contentPane.add(textField_1);
-		textField_1.setColumns(10);
+		txtContrasenia = new JPasswordField("pass");
+		txtContrasenia.setBounds(150, 130, 195, 26);
+		contentPane.add(txtContrasenia);
+		txtContrasenia.setColumns(10);
 		
 		btnEnviar = new JButton("Enviar");
 		btnEnviar.setBounds(173, 200, 113, 34);
@@ -72,9 +72,6 @@ public class Login extends JFrame {
 		lblLogin.setBounds(183, 0, 61, 28);
 		contentPane.add(lblLogin);
 		
-//		passwordField = new JPasswordField();
-//		passwordField.setBounds(150, 68, 6, 20);
-//		contentPane.add(passwordField);
 		this.asignarEventos();
 		
 	}
@@ -86,8 +83,8 @@ public class Login extends JFrame {
 		btnEnviar.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				esp.setUsuario(textField.getText());
-				esp.setContrasenia(new String(textField_1.getPassword()));
+				esp.setUsuario(txtUsuario.getText());
+				esp.setContrasenia(new String(txtContrasenia.getPassword()));
 				if(!esp.login())	{
 					Mensajes.mostrarError("Usuario y/o contraseña incorrectos", "Wake Up Brain");
 				}else	{
