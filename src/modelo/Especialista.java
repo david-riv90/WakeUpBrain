@@ -28,6 +28,10 @@ public class Especialista {
 		this.contrasenia = contrasenia;
 	}
 	
+	/**
+	 * Verifica la existencia en BD del usuario que intenta utilizar la aplicación
+	 * @return True si el usuario existe, False en caso contrario
+	 */
 	public boolean login()	{
 		boolean exito = false;
 		String query = "SELECT COUNT(*) FROM especialista" +
@@ -36,11 +40,9 @@ public class Especialista {
 			try {
 				this.comando = this.sesion_sqlite.getConexion().createStatement();
 				Mensajes.mostrarDebug(query);
-				this.comando.executeQuery(query);
-				
-				ResultSet rs = this.comando.getResultSet();
-//				rs.next();
-				int n = rs.getInt(0);
+				ResultSet rs = this.comando.executeQuery(query);
+				rs.next();
+				int n = rs.getInt(1);
 				if(n == 1)	{
 					exito = true;
 				}
