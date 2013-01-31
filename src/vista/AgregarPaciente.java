@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
@@ -45,6 +46,7 @@ public class AgregarPaciente extends JDialog {
 	private JLabel lblEspecialista;
 	private JComboBox<JComboBoxElement> cmbEspecialista;
 	private JSpinner txtGrado;
+	
 
 	JTextArea txtObservaciones;
 	JTextArea txtDiagnostico;
@@ -216,8 +218,9 @@ public class AgregarPaciente extends JDialog {
 				cmbEspecialista.addItem(elem);
 			}
 		}
-
 		contentPane.add(cmbEspecialista);
+		
+		
 
 		txtGrado = new JSpinner();
 		txtGrado.setBounds(323, 215, 65, 30);
