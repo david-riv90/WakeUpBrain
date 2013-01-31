@@ -17,6 +17,7 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import modelo.Especialista;
+import modelo.Paciente;
 import modelo.Tutor;
 
 import com.toedter.calendar.JDateChooser;
@@ -43,12 +44,14 @@ public class AgregarPaciente extends JDialog {
 	private JComboBox<JComboBoxElement> cmbTutor;
 	private JLabel lblEspecialista;
 	private JComboBox<JComboBoxElement> cmbEspecialista;
+	private JSpinner txtGrado;
 
 	JTextArea txtObservaciones;
 	JTextArea txtDiagnostico;
 
 	Tutor bdTutores = new Tutor();
 	Especialista bdEspecialistas = new Especialista();
+	Paciente bdPacientes = new Paciente();
 
 	/**
 	 * Launch the application.
@@ -216,7 +219,7 @@ public class AgregarPaciente extends JDialog {
 
 		contentPane.add(cmbEspecialista);
 
-		JSpinner txtGrado = new JSpinner();
+		txtGrado = new JSpinner();
 		txtGrado.setBounds(323, 215, 65, 30);
 		contentPane.add(txtGrado);
 
@@ -231,7 +234,20 @@ public class AgregarPaciente extends JDialog {
 		btnAgregar.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-
+				bdPacientes.setNombre(txtNom.getText());
+				bdPacientes.setApaterno(txtAP.getText());
+				bdPacientes.setAmaterno(txtAM.getText());
+				bdPacientes.setFnacimiento(txtF_Nacimiento.getDate());
+				bdPacientes.setGrado_primaria((int) txtGrado.getValue());
+				bdPacientes.setDiagnostico(txtDiagnostico.getText());
+				bdPacientes.setObservaciones(txtObservaciones.getText());
+				bdPacientes.setId_tutor((int) ((JComboBoxElement)cmbTutor.getSelectedItem()).getValor());
+				bdPacientes.setId_especialista((int) ((JComboBoxElement) cmbEspecialista.getSelectedItem()).getValor());
+				
+				bdPacientes.insertar();
+//				if(bdPacientes.insertar() && bdPacientes.listar_sqlite())	{
+//					// Actualización del grid
+//				}
 			}
 		});
 	}

@@ -117,20 +117,20 @@ public class Paciente extends Entidad {
 		boolean exito = true;
 		if(this.sesion_sqlite.conectar())	{
 			String query = 
-				"INSERT INTO" +
+				"INSERT INTO " +
 				"	paciente(nombre, apaterno, amaterno, fnacimiento, grado_primaria, diagnostico, observaciones, id_tutor, id_especialista) " +
 				"VALUES(" +
 				"	'" + this.nombre + "'" +
 				"	,'" + this.apaterno + "'" +
 				"	,'" + this.amaterno + "'" +
 				"	,'" + this.fnacimiento + "'" +
-				"	,'" + this.grado_primaria + "'"	+
+				"	," + this.grado_primaria + ""	+
 				"	,'" + this.diagnostico + "'" +
 				"	,'" + this.observaciones + "'" +
-				"	,'" + this.id_tutor + "'" +
-				"	,'" + this.id_especialista + "'" +
+				"	," + this.id_tutor + "" +
+				"	," + this.id_especialista + "" +
 				");";
-			String query_id = " SELECT last_insert_rowid();";
+			String query_id = "SELECT last_insert_rowid();";
 			ResultSet rs = null;
 			try {
 				this.comando = this.sesion_sqlite.getConexion().createStatement();
